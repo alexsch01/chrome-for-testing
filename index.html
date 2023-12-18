@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ChromeForTesting</title>
 
     <script type="module">
         window.onload = async function() {
@@ -12,7 +12,6 @@
             const app = document.querySelector('#app')
 
             let majorVersion
-            let tempHTML = ""
 
             json.versions.reverse()
 
@@ -20,21 +19,19 @@
                 if (each.version.split('.')[0] != majorVersion) {
                     majorVersion = each.version.split('.')[0]
 
-                    tempHTML += `<div style="text-align: center"><p>${each.version}</p>`
+                    app.innerHTML += `<p>${each.version}</p>`
 
                     for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
-                        tempHTML += `<a href="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
+                        app.innerHTML += `<a href="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
                     }
 
-                    tempHTML += '<div style="border-top: 3px solid #bbb"></div></div>'
+                    app.innerHTML += '<div style="border-top: 3px solid #bbb"></div>'
                 }
             })
-
-            app.innerHTML = tempHTML
         }
     </script>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app" style="text-align: center"></div>
 </body>
 </html>
