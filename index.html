@@ -12,6 +12,7 @@
             const app = document.querySelector('#app')
 
             let majorVersion
+            let tempHTML = ""
 
             json.versions.reverse()
 
@@ -19,15 +20,17 @@
                 if (each.version.split('.')[0] != majorVersion || location.hash == '#/detailed') {
                     majorVersion = each.version.split('.')[0]
 
-                    app.innerHTML += `<p>${each.version}</p>`
+                    tempHTML += `<p>${each.version}</p>`
 
                     for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
-                        app.innerHTML += `<a href="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
+                        tempHTML += `<a href="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
                     }
 
-                    app.innerHTML += '<div style="border-top: 3px solid #bbb"></div>'
+                    tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
                 }
             })
+
+            app.innerHTML = tempHTML
         }
     </script>
 </head>
