@@ -35,11 +35,11 @@
     </script>
 </head>
 <body>
-    <button onclick="if (location.href === 'https://alexsch01.github.io/ChromeForTesting/') {
-        location.assign('https://alexsch01.github.io/ChromeForTesting/#/detailed')
+    <button onclick="if (location.hash == '#/detailed') {
+        location.hash = '#/detailed'
         location.reload()
     } else {
-        location.assign('https://alexsch01.github.io/ChromeForTesting/')
+        location.assign(location.origin + location.pathname)
     }">change detail</button>
     <div id="app" style="text-align: center"></div>
 </body>
