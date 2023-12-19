@@ -16,7 +16,7 @@
             json.versions.reverse()
 
             json.versions.forEach((each) => {
-                if (each.version.split('.')[0] != majorVersion && document.querySelector('input').value === '1') {
+                if (each.version.split('.')[0] != majorVersion) {
                     majorVersion = each.version.split('.')[0]
 
                     app.innerHTML += `<p>${each.version}</p>`
