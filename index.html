@@ -16,7 +16,7 @@
             json.versions.reverse()
 
             json.versions.forEach((each) => {
-                if (each.version.split('.')[0] != majorVersion) {
+                if (each.version.split('.')[0] != majorVersion || location.hash == '#/detailed') {
                     majorVersion = each.version.split('.')[0]
 
                     app.innerHTML += `<p>${each.version}</p>`
