@@ -16,7 +16,7 @@
             json.versions.reverse()
 
             json.versions.forEach((each) => {
-                if (each.version.split('.')[0] != majorVersion) {
+                if (each.version.split('.')[0] != majorVersion && document.querySelector('input').value === '1') {
                     majorVersion = each.version.split('.')[0]
 
                     app.innerHTML += `<p>${each.version}</p>`
@@ -32,6 +32,8 @@
     </script>
 </head>
 <body>
+    <button onclick="if (document.querySelector('input').value === '0') { document.querySelector('input').value = '1' } else { document.querySelector('input').value = '0' }">change detail</button>
+    <input style="display: none" value="0">
     <div id="app" style="text-align: center"></div>
 </body>
 </html>
