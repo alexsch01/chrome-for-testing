@@ -12,13 +12,27 @@
             const app = document.querySelector('#app')
 
             let majorVersion
+            let lastMajorVersion
+            let notFirst = false
             let tempHTML = ""
 
             json.versions.reverse()
 
             json.versions.forEach((each) => {
-                if (each.version.split('.')[0] != majorVersion || location.hash == '#/detailed') {
-                    majorVersion = each.version.split('.')[0]
+                majorVersion = each.version.split('.')[0]
+
+                if (majorVersion != lastMajorVersion || location.hash == '#/detailed') {
+                    if (majorVersion != lastMajorVersion && location.hash == '#/detailed') {
+                        if (notFirst) {
+                            tempHTML += '</div>'
+                        }
+                        tempHTML += `<button onclick="if (document.querySelector('#folder${majorVersion}').style.display == '') {
+                            document.querySelector('#folder${majorVersion}').style.display = 'none'
+                        } else {
+                            document.querySelector('#folder${majorVersion}').style.display = ''
+                        }">${majorVersion}</button><br><div id="folder${majorVersion}" style="display: none">`
+                        notFirst = true
+                    }
 
                     tempHTML += `<p>${each.version}</p>`
 
@@ -27,8 +41,14 @@
                     }
 
                     tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
+
+                    lastMajorVersion = each.version.split('.')[0]
                 }
             })
+
+            if (location.hash == '#/detailed') {
+                tempHTML += "</div>"
+            }
 
             app.innerHTML = tempHTML
         }
