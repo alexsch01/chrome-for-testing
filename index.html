@@ -35,6 +35,13 @@
     </script>
 </head>
 <body>
+    <button onclick="if (location.href === 'https://alexsch01.github.io/ChromeForTesting/') {
+        location.assign('https://alexsch01.github.io/ChromeForTesting/#/detailed')
+        location.reload()
+    } else {
+        location.assign('https://alexsch01.github.io/ChromeForTesting/')
+        location.reload()
+    }">change detail</button>
     <div id="app" style="text-align: center"></div>
 </body>
 </html>
