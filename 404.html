@@ -1,7 +1,9 @@
 <script>
-    currentURL = window.location.href
-    lowerCaseURL = currentURL.toLowerCase()
-    if (currentURL != lowerCaseURL) {
-        location.replace(lowerCaseURL)
+    window.onload = function() {
+        currentURL = window.location.href
+        lowerCaseURL = currentURL.toLowerCase()
+        if (currentURL != lowerCaseURL) {
+            location.replace(lowerCaseURL)
+        }
     }
 </script>
