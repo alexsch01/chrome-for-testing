@@ -6,6 +6,16 @@
     <title>Chrome for Testing</title>
 
     <script type="module">
+        globalThis.productClick = function(product) {
+            const data = JSON.parse(document.querySelector('dialog').value)
+            window.open(`https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`, "_self")
+        }
+
+        globalThis.platformClick = function(version, platform) {
+            document.querySelector('dialog').value = `{"version": "${version}", "platform": "${platform}"}`
+            document.querySelector('dialog').showModal()
+        }
+
         window.onload = async function() {
             const response = await fetch("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions.json")
             const json = await response.json()
@@ -37,7 +47,8 @@
                     tempHTML += `<p>${each.version}</p>`
 
                     for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
-                        tempHTML += `<a href="https://storage.googleapis.com/chrome-for-testing-public/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
+                        tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
+                        // tempHTML += `<a href="https://storage.googleapis.com/chrome-for-testing-public/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
                     }
 
                     tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
@@ -55,6 +66,17 @@
     </script>
 </head>
 <body>
+    <dialog>
+        <form method="dialog">
+            <button style="float: right;">X</button>
+            <br><br>
+            <button onclick="globalThis.productClick('chrome')">chrome</button>
+            <br><br>
+            <button onclick="globalThis.productClick('chromedriver')">chromedriver</button>
+            <br><br>
+            <button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button>
+        </form>
+    </dialog>
     <button onclick="if (location.hash == '') {
         location.hash = '#/detailed'
         location.reload()
