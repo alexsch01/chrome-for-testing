@@ -12,6 +12,23 @@
         }
 
         globalThis.platformClick = function(version, platform) {
+            const majorVersion = parseInt(version.split('.')[0])
+
+            if(majorVersion <= 115) {
+                document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`).style.display = 'none'
+            } else {
+                document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`).style.display = ''
+            }
+
+            if(majorVersion <= 120) {
+                document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`).style.display = 'none'
+            } else {
+                document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`).style.display = ''
+            }
+
+            document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`)
+            document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`)
+
             document.querySelector('dialog').value = `{"version": "${version}", "platform": "${platform}"}`
             document.querySelector('dialog').showModal()
         }
@@ -36,7 +53,7 @@
                         if (notFirst) {
                             tempHTML += '</div>'
                         }
-                        tempHTML += `<button onclick="if (document.querySelector('#folder${majorVersion}').style.display == '') {
+                        tempHTML += `<br><button style="background-color: white" onclick="if (document.querySelector('#folder${majorVersion}').style.display == '') {
                             document.querySelector('#folder${majorVersion}').style.display = 'none'
                         } else {
                             document.querySelector('#folder${majorVersion}').style.display = ''
@@ -67,12 +84,12 @@
 <body>
     <dialog>
         <form method="dialog">
-            <button style="float: right">X</button>
+            <button style="float: right; color: red">X</button>
             <br><br>
             <button onclick="globalThis.productClick('chrome')">chrome</button>
-            <br><br>
+            <p></p>
             <button onclick="globalThis.productClick('chromedriver')">chromedriver</button>
-            <br><br>
+            <p></p>
             <button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button>
         </form>
     </dialog>
