@@ -48,7 +48,6 @@
 
                     for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
                         tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
-                        // tempHTML += `<a href="https://storage.googleapis.com/chrome-for-testing-public/${each.version}/${platform}/chrome-${platform}.zip">${platform}</a>\n`
                     }
 
                     tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
