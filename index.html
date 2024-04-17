@@ -7,7 +7,7 @@
 
     <script type="module">
         globalThis.productClick = function(product) {
-            const data = JSON.parse(document.querySelector('dialog').value)
+            const data = JSON.parse(document.querySelector('dialog span').innerHTML)
             window.open(`https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`)
         }
 
@@ -29,7 +29,7 @@
             document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`)
             document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`)
 
-            document.querySelector('dialog').value = `{"version": "${version}", "platform": "${platform}"}`
+            document.querySelector('dialog span').innerHTML = `{"version": "${version}", "platform": "${platform}"}`
             document.querySelector('dialog').showModal()
         }
 
@@ -86,11 +86,15 @@
         <form method="dialog">
             <button style="float: right; color: red">X</button>
             <br><br>
-            <button onclick="globalThis.productClick('chrome')">chrome</button>
-            <p></p>
-            <button onclick="globalThis.productClick('chromedriver')">chromedriver</button>
-            <p></p>
-            <button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button>
+            <span></span>
+            <br><br>
+            <div style="text-align: center;">
+                <button onclick="globalThis.productClick('chrome')">chrome</button>
+                <p></p>
+                <button onclick="globalThis.productClick('chromedriver')">chromedriver</button>
+                <p></p>
+                <button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button>
+            </div>
         </form>
     </dialog>
     <button onclick="if (location.hash == '') {
