@@ -15,15 +15,15 @@
             const majorVersion = parseInt(version.split('.')[0])
 
             if(majorVersion <= 115) {
-                document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`).style.display = 'none'
+                document.querySelector(`[class="chromedriver"]`).style.display = 'none'
             } else {
-                document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`).style.display = ''
+                document.querySelector(`[class="chromedriver"]`).style.display = ''
             }
 
             if(majorVersion <= 120) {
-                document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`).style.display = 'none'
+                document.querySelector(`[class="chrome-headless-shell"]`).style.display = 'none'
             } else {
-                document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`).style.display = ''
+                document.querySelector(`[class="chrome-headless-shell"]`).style.display = ''
             }
 
             document.querySelector('dialog span').innerHTML = `{"version": "${version}", "platform": "${platform}"}`
@@ -86,11 +86,11 @@
             <span></span>
             <br><br>
             <div style="text-align: center;">
-                <button onclick="globalThis.productClick('chrome')">chrome</button>
+                <a class="chrome"><button onclick="globalThis.productClick('chrome')">chrome</button></a>
                 <p></p>
-                <button onclick="globalThis.productClick('chromedriver')">chromedriver</button>
+                <a class="chromedriver"><button onclick="globalThis.productClick('chromedriver')">chromedriver</button></a>
                 <p></p>
-                <button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button>
+                <a class="chrome-headless-shell"><button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button></a>
             </div>
         </form>
     </dialog>
