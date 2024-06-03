@@ -6,9 +6,9 @@
     <title>Chrome for Testing</title>
 
     <script type="module">
-        globalThis.productClick = function(product) {
+        globalThis.getProductURL = function(product) {
             const data = JSON.parse(document.querySelector('dialog span').innerHTML)
-            window.open(`https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`)
+            return `https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`
         }
 
         globalThis.platformClick = function(version, platform) {
@@ -28,6 +28,10 @@
 
             document.querySelector('dialog span').innerHTML = `{"version": "${version}", "platform": "${platform}"}`
             document.querySelector('dialog').showModal()
+
+            document.querySelector('[class="chrome"]').setAttribute('href', getProductURL('chrome'))
+            document.querySelector('[class="chromedriver"]').setAttribute('href', getProductURL('chromedriver'))
+            document.querySelector('[class="chrome-headless-shell"]').setAttribute('href', getProductURL('chrome-headless-shell'))
         }
 
         window.onload = async function() {
@@ -86,11 +90,11 @@
             <span></span>
             <br><br>
             <div style="text-align: center;">
-                <a class="chrome"><button onclick="globalThis.productClick('chrome')">chrome</button></a>
+                <a class="chrome" target="_blank"><button type="button">chrome</button></a>
                 <p></p>
-                <a class="chromedriver"><button onclick="globalThis.productClick('chromedriver')">chromedriver</button></a>
+                <a class="chromedriver" target="_blank"><button type="button">chromedriver</button></a>
                 <p></p>
-                <a class="chrome-headless-shell"><button onclick="globalThis.productClick('chrome-headless-shell')">chrome-headless-shell</button></a>
+                <a class="chrome-headless-shell" target="_blank"><button type="button">chrome-headless-shell</button></a>
             </div>
         </form>
     </dialog>
