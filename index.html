@@ -26,9 +26,6 @@
                 document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`).style.display = ''
             }
 
-            document.querySelector(`[onclick="globalThis.productClick('chromedriver')"]`)
-            document.querySelector(`[onclick="globalThis.productClick('chrome-headless-shell')"]`)
-
             document.querySelector('dialog span').innerHTML = `{"version": "${version}", "platform": "${platform}"}`
             document.querySelector('dialog').showModal()
         }
