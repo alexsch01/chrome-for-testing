@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chrome for Testing</title>
+</head>
+<body>
+    <dialog>
+        <form method="dialog">
+            <button style="float: right; color: red">X</button>
+            <br><br>
+            <span></span>
+            <br><br>
+            <div style="text-align: center;">
+                <a class="chrome" target="_blank"><button type="button">chrome</button></a>
+                <p></p>
+                <a class="chromedriver" target="_blank"><button type="button">chromedriver</button></a>
+                <p></p>
+                <a class="chrome-headless-shell" target="_blank"><button type="button">chrome-headless-shell</button></a>
+            </div>
+        </form>
+    </dialog>
+    <button onclick="if (location.hash == '') {
+        location.hash = '#/detailed'
+        location.reload()
+    } else {
+        location.assign(location.origin + location.pathname)
+    }">change detail</button>
+    <div id="app" style="text-align: center"></div>
 
     <script type="module">
         globalThis.getProductURL = function(product) {
@@ -34,76 +58,50 @@
             document.querySelector('[class="chrome-headless-shell"]').setAttribute('href', getProductURL('chrome-headless-shell'))
         }
 
-        window.onload = async function() {
-            const response = await fetch("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions.json")
-            const json = await response.json()
-            const app = document.querySelector('#app')
+        const response = await fetch("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions.json")
+        const json = await response.json()
+        const app = document.querySelector('#app')
 
-            let majorVersion
-            let lastMajorVersion
-            let notFirst = false
-            let tempHTML = ""
+        let majorVersion
+        let lastMajorVersion
+        let notFirst = false
+        let tempHTML = ""
 
-            json.versions.reverse()
+        json.versions.reverse()
 
-            json.versions.forEach((each) => {
-                majorVersion = each.version.split('.')[0]
+        json.versions.forEach((each) => {
+            majorVersion = each.version.split('.')[0]
 
-                if (majorVersion != lastMajorVersion || location.hash == '#/detailed') {
-                    if (majorVersion != lastMajorVersion && location.hash == '#/detailed') {
-                        if (notFirst) {
-                            tempHTML += '</div>'
-                        }
-                        tempHTML += `<br><button style="background-color: white" onclick="if (document.querySelector('#folder${majorVersion}').style.display == '') {
-                            document.querySelector('#folder${majorVersion}').style.display = 'none'
-                        } else {
-                            document.querySelector('#folder${majorVersion}').style.display = ''
-                        }">${majorVersion}</button><br><div id="folder${majorVersion}" style="display: none">`
-                        notFirst = true
+            if (majorVersion != lastMajorVersion || location.hash == '#/detailed') {
+                if (majorVersion != lastMajorVersion && location.hash == '#/detailed') {
+                    if (notFirst) {
+                        tempHTML += '</div>'
                     }
-
-                    tempHTML += `<p>${each.version}</p>`
-
-                    for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
-                        tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
-                    }
-
-                    tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
-
-                    lastMajorVersion = each.version.split('.')[0]
+                    tempHTML += `<br><button style="background-color: white" onclick="if (document.querySelector('#folder${majorVersion}').style.display == '') {
+                        document.querySelector('#folder${majorVersion}').style.display = 'none'
+                    } else {
+                        document.querySelector('#folder${majorVersion}').style.display = ''
+                    }">${majorVersion}</button><br><div id="folder${majorVersion}" style="display: none">`
+                    notFirst = true
                 }
-            })
 
-            if (location.hash == '#/detailed') {
-                tempHTML += "</div>"
+                tempHTML += `<p>${each.version}</p>`
+
+                for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
+                    tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
+                }
+
+                tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
+
+                lastMajorVersion = each.version.split('.')[0]
             }
+        })
 
-            app.innerHTML = tempHTML
+        if (location.hash == '#/detailed') {
+            tempHTML += "</div>"
         }
+
+        app.innerHTML = tempHTML
     </script>
-</head>
-<body>
-    <dialog>
-        <form method="dialog">
-            <button style="float: right; color: red">X</button>
-            <br><br>
-            <span></span>
-            <br><br>
-            <div style="text-align: center;">
-                <a class="chrome" target="_blank"><button type="button">chrome</button></a>
-                <p></p>
-                <a class="chromedriver" target="_blank"><button type="button">chromedriver</button></a>
-                <p></p>
-                <a class="chrome-headless-shell" target="_blank"><button type="button">chrome-headless-shell</button></a>
-            </div>
-        </form>
-    </dialog>
-    <button onclick="if (location.hash == '') {
-        location.hash = '#/detailed'
-        location.reload()
-    } else {
-        location.assign(location.origin + location.pathname)
-    }">change detail</button>
-    <div id="app" style="text-align: center"></div>
 </body>
 </html>
