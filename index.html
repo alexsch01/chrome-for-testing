@@ -13,7 +13,7 @@
 <body>
     <dialog>
         <form method="dialog">
-            <button style="float: right; color: red">X</button>
+            <button style="float: right; color: red" onclick="globalThis.cancelButton()">X</button>
             <br><br>
             <span></span>
             <br><br>
@@ -63,6 +63,10 @@
             } catch(_) {}
         }
 
+        globalThis.cancelButton = function() {
+            controller.abort()
+        }
+
         globalThis.platformClick = function(version, platform) {
             const majorVersion = parseInt(version.split('.')[0])
 
@@ -82,7 +86,6 @@
             document.querySelector('dialog span').innerHTML = JSON.stringify(data, null, 2)
             document.querySelector('dialog').showModal()
 
-            controller?.abort()
             updateBuildDate(data)
 
             document.querySelector('[class="chrome"]').setAttribute('href', getProductURL('chrome'))
