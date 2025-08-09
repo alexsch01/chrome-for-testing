@@ -51,7 +51,7 @@
                 })
                 const json = await response.json()
     
-                const startTime = json.releases[0]?.serving.startTime
+                const startTime = json.releases.at(-1)?.serving.startTime
                 if (startTime == undefined) {
                     data.buildDate = "No data found"
                 } else {
