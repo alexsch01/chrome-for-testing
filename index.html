@@ -26,13 +26,15 @@
             </div>
         </form>
     </dialog>
+
     <button onclick="if (location.hash == '') {
         location.hash = '#/detailed'
         location.reload()
     } else {
         location.assign(location.origin + location.pathname)
     }">change detail</button>
-    <div id="app" style="text-align: center"></div>
+
+    <div id="app" style="text-align: center">Loading...</div>
 
     <script type="module">
         globalThis.getProductURL = function(product) {
