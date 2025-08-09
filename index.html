@@ -41,8 +41,7 @@
             controller = new AbortController()
 
             try {
-                const buildVersion = data.version.split(".").slice(0, -1).join(".") + ".0"
-                const response = await fetch(`https://versionhistory.googleapis.com/v1/chrome/platforms/win64/channels/canary/versions/${buildVersion}/releases`, {
+                const response = await fetch(`https://versionhistory.googleapis.com/v1/chrome/platforms/win64/channels/all/versions/${data.version}/releases`, {
                     signal: controller?.signal
                 })
                 const json = await response.json()
