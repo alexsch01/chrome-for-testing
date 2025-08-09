@@ -30,6 +30,11 @@
     <div id="app" style="text-align: center"></div>
 
     <script type="module">
+        globalThis.getProductURL = function(product) {
+            const data = JSON.parse(document.querySelector('dialog span').innerHTML)
+            return `https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`
+        }
+
         const updateBuildDate = async function(data) {
             const buildVersion = data.version.split(".").slice(0, -1).join(".") + ".0"
             const response = await fetch(`https://versionhistory.googleapis.com/v1/chrome/platforms/win64/channels/canary/versions/${buildVersion}/releases`)
@@ -44,12 +49,6 @@
             }
 
             document.querySelector('dialog span').innerHTML = JSON.stringify(data, null, 2)
-        }
-
-        globalThis.getProductURL = function(product) {
-            const data = JSON.parse(document.querySelector('dialog span').innerHTML)
-            updateBuildDate(data)
-            return `https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`
         }
 
         globalThis.platformClick = function(version, platform) {
@@ -67,8 +66,10 @@
                 document.querySelector(`[class="chrome-headless-shell"]`).style.display = ''
             }
 
-            document.querySelector('dialog span').innerHTML = JSON.stringify({ version, platform, buildDate: "Loading..." }, null, 2)
+            const data = { version, platform, buildDate: "Loading..." }
+            document.querySelector('dialog span').innerHTML = JSON.stringify(data, null, 2)
             document.querySelector('dialog').showModal()
+            updateBuildDate(data)
 
             document.querySelector('[class="chrome"]').setAttribute('href', getProductURL('chrome'))
             document.querySelector('[class="chromedriver"]').setAttribute('href', getProductURL('chromedriver'))
