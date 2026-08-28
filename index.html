@@ -95,12 +95,10 @@
 
                 tempHTML += `<p>${each.version}</p>`
 
-                if (majorVersion >= 154) {
-                    tempHTML += `<button onclick="globalThis.platformClick('${each.version}', 'linux-arm64')">linux-arm64</button>\n`
-                }
-
-                for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
-                    tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
+                for (const platform of ['linux-arm64', 'linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
+                    if (platform != 'linux-arm64' || majorVersion >= 154) {
+                        tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
+                    }
                 }
 
                 tempHTML += '<div style="border-top: 3px solid #bbb"></div>'
