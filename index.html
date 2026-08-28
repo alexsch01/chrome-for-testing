@@ -42,53 +42,24 @@
             return `https://storage.googleapis.com/chrome-for-testing-public/${data.version}/${data.platform}/${product}-${data.platform}.zip`
         }
 
-        let controller
-
-        const updateBuildDate = async function(data) {
-            controller = new AbortController()
-
-            try {
-                const response = await fetch(`https://versionhistory.googleapis.com/v1/chrome/platforms/win64/channels/all/versions/${data.version}/releases`, {
-                    signal: controller?.signal
-                })
-                const json = await response.json()
-    
-                const startTime = json.releases.at(-1)?.serving.startTime
-                if (startTime == undefined) {
-                    data.buildDate = "No data found"
-                } else {
-                    const date = new Date(startTime)
-                    data.buildDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
-                }
-    
-                document.querySelector('dialog span').innerHTML = JSON.stringify(data, null, 2)
-            } catch(_) {}
-        }
-
-        globalThis.cancelButton = function() {
-            controller.abort()
-        }
-
         globalThis.platformClick = function(version, platform) {
             const majorVersion = parseInt(version.split('.')[0])
 
-            if(majorVersion <= 115) {
-                document.querySelector(`[class="chromedriver"]`).style.display = 'none'
-            } else {
+            if (majorVersion >= 116) {
                 document.querySelector(`[class="chromedriver"]`).style.display = ''
-            }
-
-            if(majorVersion <= 120) {
-                document.querySelector(`[class="chrome-headless-shell"]`).style.display = 'none'
             } else {
-                document.querySelector(`[class="chrome-headless-shell"]`).style.display = ''
+                document.querySelector(`[class="chromedriver"]`).style.display = 'none'
             }
 
-            const data = { version, platform, buildDate: "Loading..." }
+            if (majorVersion >= 122) {
+                document.querySelector(`[class="chrome-headless-shell"]`).style.display = ''
+            } else {
+                document.querySelector(`[class="chrome-headless-shell"]`).style.display = 'none'
+            }
+
+            const data = { version, platform }
             document.querySelector('dialog span').innerHTML = JSON.stringify(data, null, 2)
             document.querySelector('dialog').showModal()
-
-            updateBuildDate(data)
 
             document.querySelector('[class="chrome"]').setAttribute('href', getProductURL('chrome'))
             document.querySelector('[class="chromedriver"]').setAttribute('href', getProductURL('chromedriver'))
@@ -123,6 +94,10 @@
                 }
 
                 tempHTML += `<p>${each.version}</p>`
+
+                if (majorVersion >= 154) {
+                    tempHTML += `<button onclick="globalThis.platformClick('${each.version}', 'linux-arm64')">linux-arm64</button>\n`
+                }
 
                 for (const platform of ['linux64', 'mac-arm64', 'mac-x64', 'win32', 'win64']) {
                     tempHTML += `<button onclick="globalThis.platformClick('${each.version}', '${platform}')">${platform}</button>\n`
